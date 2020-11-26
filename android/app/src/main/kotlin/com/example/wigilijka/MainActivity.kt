@@ -1,4 +1,4 @@
-package com.example.wigilijka
+package pl.filipguzdek.wigilijka
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "885221757155",
+    "firebase_url": "https://wigilijka-1ef0d.firebaseio.com",
+    "project_id": "wigilijka-1ef0d",
+    "storage_bucket": "wigilijka-1ef0d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885221757155:android:335aba9c43a2ad171935d6",
+        "android_client_info": {
+          "package_name": "pl.filipguzdek.wigilijka"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "885221757155-v2eelabhqjrh5aa6omcmr4um9huh7agv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaoEupET_3hwElWWljDvCAn9lNzHi1qgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "885221757155-v2eelabhqjrh5aa6omcmr4um9huh7agv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
