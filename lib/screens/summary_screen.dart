@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class SummaryScreen extends StatefulWidget {
   SummaryScreen({this.id, this.name});
-  String id;
-  String name;
+  final String id;
+  final String name;
   @override
   _SummaryScreenState createState() => _SummaryScreenState();
 }

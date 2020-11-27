@@ -1,14 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
 import 'package:wigilijka/screens/summary_screen.dart';
 
-import '../main.dart';
-
 class MainScreen extends StatefulWidget {
   MainScreen({@required this.myId});
-  String myId;
+  final String myId;
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -20,7 +17,6 @@ class _MainScreenState extends State<MainScreen> {
       stream: FirebaseFirestore.instance.collection('users').snapshots(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          var data = snapshot.data.docs[1].data();
           int size = snapshot.data.size;
           List<Map<String, dynamic>> datas = new List(size);
           // List<Map<String, String>> datas;
@@ -41,12 +37,14 @@ class _MainScreenState extends State<MainScreen> {
                   p = size + 1;
                 }
               }
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => SummaryScreen(
-                    id: chosenId,
-                    name: chosenName,
+              WidgetsBinding.instance.addPostFrameCallback(
+                (_) => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SummaryScreen(
+                      id: chosenId,
+                      name: chosenName,
+                    ),
                   ),
                 ),
               );
@@ -67,9 +65,9 @@ class _MainScreenState extends State<MainScreen> {
 
 class MainContent extends StatefulWidget {
   MainContent({this.size, this.datas, this.myId});
-  int size;
-  List<Map<String, dynamic>> datas;
-  String myId;
+  final int size;
+  final List<Map<String, dynamic>> datas;
+  final String myId;
   @override
   _MainContentState createState() => _MainContentState();
 }
@@ -110,13 +108,14 @@ class _MainContentState extends State<MainContent>
                           .set({
                         'wolny': false,
                       }, SetOptions(merge: true));
-
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => SummaryScreen(
+                      WidgetsBinding.instance.addPostFrameCallback(
+                        (_) => Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SummaryScreen(
                             id: widget.datas[selectedIndex]["numer"],
                             name: widget.datas[selectedIndex]["nazwa"],
+                          ),
                           ),
                         ),
                       );
@@ -181,11 +180,6 @@ class _MainContentState extends State<MainContent>
       ],
     );
   }
-}
-
-Future _initialization() {
-  final _firestore = FirebaseFirestore.instance;
-  _firestore.collection('users').get();
 }
 
 List shuffle(List items) {

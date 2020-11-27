@@ -75,18 +75,18 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       body: FutureBuilder(
-        future: isLogged(),
-        builder: (context, snapshot) {
+        future: _initialization,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data != 'not-logged') {
-              return MainScreen(
-                myId: snapshot.data,
-              );
-            } else {
-              return FutureBuilder(
-                future: _initialization,
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
+            return FutureBuilder(
+              future: isLogged(),
+              builder: (BuildContext context, AsyncSnapshot sh) {
+                if (sh.hasData) {
+                  if (sh.data != 'not-logged') {
+                    return MainScreen(
+                      myId: sh.data,
+                    );
+                  } else {
                     return Container(
                       padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                       child: Column(
@@ -223,7 +223,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 saveLogins(id: _numer)
                                                     .then((value) {
                                                   if (value) {
-
                                                     _firestore
                                                         .collection('users')
                                                         .doc(_numer)
@@ -237,9 +236,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                         builder: (_) => MyApp(),
                                                       ),
                                                     );
-
                                                   } else {
-                                                    
                                                     setState(() {
                                                       error = true;
                                                       errorText =
@@ -277,12 +274,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         ],
                       ),
                     );
-                  } else {
-                    return LinearProgressIndicator();
                   }
-                },
-              );
-            }
+                }else{
+                  return LinearProgressIndicator();
+                }
+              },
+            );
           } else {
             return LinearProgressIndicator();
           }
