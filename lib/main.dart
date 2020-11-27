@@ -93,9 +93,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            'Tyle póki co mam',
+                            'Aby móc wylosować, musisz potwierdzić tożsamość',
                             style: GoogleFonts.comfortaa(
-                              fontSize: 36.0,
+                              fontSize: 32.0,
                             ),
                           ),
                           Form(
@@ -229,11 +229,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                                         .set({
                                                       'logged': true,
                                                     }, SetOptions(merge: true));
-
-                                                    Navigator.pushReplacement(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (_) => MyApp(),
+                                                    WidgetsBinding.instance
+                                                        .addPostFrameCallback(
+                                                      (_) => Navigator
+                                                          .pushReplacement(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (_) =>
+                                                              MyApp(),
+                                                        ),
                                                       ),
                                                     );
                                                   } else {
@@ -275,7 +279,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     );
                   }
-                }else{
+                } else {
                   return LinearProgressIndicator();
                 }
               },

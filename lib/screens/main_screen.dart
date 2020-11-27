@@ -19,6 +19,7 @@ class _MainScreenState extends State<MainScreen> {
         if (snapshot.hasData) {
           int size = snapshot.data.size;
           List<Map<String, dynamic>> datas = new List(size);
+          int meHasChosenIndex;
           // List<Map<String, String>> datas;
           for (int i = 0; i < size; i++) {
             datas[i] = new Map();
@@ -28,11 +29,15 @@ class _MainScreenState extends State<MainScreen> {
             if (datas[i]["numer"] == widget.myId &&
                 snapshot.data.docs[i]['chose'] != "" &&
                 snapshot.data.docs[i]['chose'] != null) {
-              String chosenId = snapshot.data.docs[i]['chose'];
+              meHasChosenIndex = i;
+            }
+          }
+          if(meHasChosenIndex != null){
+            String chosenId = snapshot.data.docs[meHasChosenIndex]['chose'];
               String chosenName;
               for (int p = 0; p < size; p++) {
                 if (snapshot.data.docs[p].id ==
-                    snapshot.data.docs[i]['chose']) {
+                    snapshot.data.docs[meHasChosenIndex]['chose']) {
                   chosenName = snapshot.data.docs[p]["nazwa"];
                   p = size + 1;
                 }
@@ -48,7 +53,6 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 ),
               );
-            }
           }
 
           datas = shuffle(datas);
@@ -88,7 +92,7 @@ class _MainContentState extends State<MainContent>
         Container(
           child: RaisedButton(
             onPressed: selectedIndex != null
-                ? () {
+                ? () async {
                     if (widget.datas[selectedIndex]["wolny"] == false) {
                       setState(() {
                         selectedIndex = null;
@@ -96,18 +100,19 @@ class _MainContentState extends State<MainContent>
                       });
                     } else {
                       final _firestore = FirebaseFirestore.instance;
-                      _firestore.collection('users').doc(widget.myId).set({
+                      await _firestore.collection('users').doc(widget.myId).set({
                         'chose':
                             widget.datas[selectedIndex]["numer"].toString(),
                         'logged': true,
                       }, SetOptions(merge: true));
 
-                      _firestore
+                      await _firestore
                           .collection('users')
                           .doc(widget.datas[selectedIndex]["numer"])
                           .set({
                         'wolny': false,
                       }, SetOptions(merge: true));
+
                       WidgetsBinding.instance.addPostFrameCallback(
                         (_) => Navigator.pushReplacement(
                           context,
