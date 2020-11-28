@@ -215,8 +215,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                               .get()
                                               .then((doc) {
                                             if (doc.exists) {
-                                              // print("Document data:" +
-                                              //     doc.data().toString());
                                               Map<String, dynamic> _data =
                                                   doc.data();
                                               if (_data['pass'] == _kod) {

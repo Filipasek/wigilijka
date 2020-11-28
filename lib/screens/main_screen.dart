@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
 import 'package:wigilijka/screens/summary_screen.dart';
 
@@ -18,44 +19,44 @@ class _MainScreenState extends State<MainScreen> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           int size = snapshot.data.size;
-          List<Map<String, dynamic>> datas = new List(size);
+          List<Map<String, dynamic>> rawDatas = new List(size);
           int meHasChosenIndex;
-          // List<Map<String, String>> datas;
+
           for (int i = 0; i < size; i++) {
-            datas[i] = new Map();
-            datas[i]["numer"] = snapshot.data.docs[i].id;
-            datas[i]["wolny"] = snapshot.data.docs[i]['wolny'];
-            datas[i]["nazwa"] = snapshot.data.docs[i]['nazwa'];
-            if (datas[i]["numer"] == widget.myId &&
+            rawDatas[i] = new Map();
+            rawDatas[i]["numer"] = snapshot.data.docs[i].id;
+            rawDatas[i]["wolny"] = snapshot.data.docs[i]['wolny'];
+            rawDatas[i]["nazwa"] = snapshot.data.docs[i]['nazwa'];
+            if (rawDatas[i]["numer"] == widget.myId &&
                 snapshot.data.docs[i]['chose'] != "" &&
                 snapshot.data.docs[i]['chose'] != null) {
               meHasChosenIndex = i;
             }
           }
-          if(meHasChosenIndex != null){
+          if (meHasChosenIndex != null) {
             String chosenId = snapshot.data.docs[meHasChosenIndex]['chose'];
-              String chosenName;
-              for (int p = 0; p < size; p++) {
-                if (snapshot.data.docs[p].id ==
-                    snapshot.data.docs[meHasChosenIndex]['chose']) {
-                  chosenName = snapshot.data.docs[p]["nazwa"];
-                  p = size + 1;
-                }
+            String chosenName;
+            for (int p = 0; p < size; p++) {
+              if (snapshot.data.docs[p].id ==
+                  snapshot.data.docs[meHasChosenIndex]['chose']) {
+                chosenName = snapshot.data.docs[p]["nazwa"];
+                p = size + 1;
               }
-              WidgetsBinding.instance.addPostFrameCallback(
-                (_) => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SummaryScreen(
-                      id: chosenId,
-                      name: chosenName,
-                    ),
+            }
+            WidgetsBinding.instance.addPostFrameCallback(
+              (_) => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SummaryScreen(
+                    id: chosenId,
+                    name: chosenName,
                   ),
                 ),
-              );
+              ),
+            );
           }
 
-          datas = shuffle(datas);
+          List<Map<String, dynamic>> datas = shuffle(rawDatas);
 
           print("Snapszot: " + size.toString());
           return MainContent(size: size, datas: datas, myId: widget.myId);
@@ -90,9 +91,11 @@ class _MainContentState extends State<MainContent>
     return Column(
       children: [
         Container(
-          child: RaisedButton(
+          child: FlatButton(
             onPressed: selectedIndex != null
                 ? () async {
+                    String selectedNumber =
+                        widget.datas[selectedIndex]["numer"];
                     if (widget.datas[selectedIndex]["wolny"] == false) {
                       setState(() {
                         selectedIndex = null;
@@ -100,36 +103,28 @@ class _MainContentState extends State<MainContent>
                       });
                     } else {
                       final _firestore = FirebaseFirestore.instance;
-                      await _firestore.collection('users').doc(widget.myId).set({
-                        'chose':
-                            widget.datas[selectedIndex]["numer"].toString(),
+                      await _firestore
+                          .collection('users')
+                          .doc(widget.myId)
+                          .set({
+                        'chose': selectedNumber,
                         'logged': true,
                       }, SetOptions(merge: true));
 
                       await _firestore
                           .collection('users')
-                          .doc(widget.datas[selectedIndex]["numer"])
+                          .doc(selectedNumber)
                           .set({
                         'wolny': false,
                       }, SetOptions(merge: true));
-
-                      WidgetsBinding.instance.addPostFrameCallback(
-                        (_) => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SummaryScreen(
-                            id: widget.datas[selectedIndex]["numer"],
-                            name: widget.datas[selectedIndex]["nazwa"],
-                          ),
-                          ),
-                        ),
-                      );
                     }
-                    print("Wybrane: " +
-                        widget.datas[selectedIndex]["numer"].toString());
+                    print("Wybrane: " + selectedNumber);
                   }
                 : null,
-            child: Text('Zatwierdź wybór'),
+            child: selectedIndex != null
+                ? Text('Zatwierdź wybór', style: GoogleFonts.comfortaa())
+                : Text('Wybierz kwadracik', style: GoogleFonts.comfortaa()),
+            color: Color.fromRGBO(217, 217, 243, 1),
           ),
         ),
         Expanded(
