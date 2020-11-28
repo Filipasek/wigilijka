@@ -58,22 +58,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
               ),
             ),
             //TODO: remove!!!
-            FlatButton(
-              onPressed: () async {
-                await resetData();
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (_) => MyApp(),
-                  ),
-                );
-              },
-              child: Text(
-                'Press to reset data',
-                style: GoogleFonts.comfortaa(
-                  color: Theme.of(context).textTheme.headline5.color,
-                ),
-              ),
-            ),
+            
           ],
         ),
       ),
