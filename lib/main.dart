@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         elevation: 0.0,
         title: Text(
-          'Wigilijka',
+          'Zadania z matematyki',
           style: GoogleFonts.comfortaa(),
         ),
       ),
@@ -87,205 +87,286 @@ class _MyHomePageState extends State<MyHomePage> {
                       myId: sh.data,
                     );
                   } else {
-                    return Container(
-                      padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            'Aby móc wylosować, musisz potwierdzić tożsamość',
-                            style: GoogleFonts.comfortaa(
-                              fontSize: 32.0,
-                            ),
-                          ),
-                          Form(
-                            key: _formKey,
+                    return CustomScrollView(
+                      slivers: [
+                        SliverFillRemaining(
+                          hasScrollBody: true,
+                          child: Center(
                             child: Container(
-                              margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
-                              child: Theme(
-                                data: ThemeData(
-                                  primaryColor: Theme.of(context).accentColor,
-                                ),
-                                child: Column(
-                                  children: [
-                                    error
-                                        ? Container(
-                                            padding: EdgeInsets.fromLTRB(
-                                                30.0, 10.0, 30.0, 10.0),
-                                            margin: EdgeInsets.all(10.0),
-                                            // decoration: BoxDecoration(color: Colors.red),
-                                            child: Text(
-                                              errorText.toString(),
-                                              style: GoogleFonts.comfortaa(
-                                                  color: Colors.red,
-                                                  fontSize: 18.0),
+                              constraints: BoxConstraints(maxWidth: 600.0),
+                              padding:
+                                  EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(
+                                    'Aby móc wylosować, musisz potwierdzić tożsamość',
+                                    style: GoogleFonts.comfortaa(
+                                      fontSize: 32.0,
+                                    ),
+                                  ),
+                                  Form(
+                                    key: _formKey,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          bottom: 20.0, top: 20.0),
+                                      child: Theme(
+                                        data: ThemeData(
+                                          primaryColor:
+                                              Theme.of(context).accentColor,
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            error
+                                                ? Container(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            30.0,
+                                                            10.0,
+                                                            30.0,
+                                                            10.0),
+                                                    margin:
+                                                        EdgeInsets.all(10.0),
+                                                    // decoration: BoxDecoration(color: Colors.red),
+                                                    child: Text(
+                                                      errorText.toString(),
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                              color: Colors.red,
+                                                              fontSize: 18.0),
+                                                    ),
+                                                  )
+                                                : SizedBox(),
+                                            TextFormField(
+                                              inputFormatters: [
+                                                UpperCaseTextFormatter(),
+                                              ],
+                                              enabled: !loading,
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .headline5
+                                                      .color),
+                                              showCursor: true,
+                                              autocorrect: true,
+                                              autofocus: true,
+                                              cursorColor:
+                                                  Theme.of(context).accentColor,
+                                              decoration: InputDecoration(
+                                                labelStyle: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .headline5
+                                                      .color,
+                                                ),
+                                                labelText:
+                                                    "Numer z dziennika w formacie: 2AG06",
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5
+                                                        .color,
+                                                    width: 2.0,
+                                                  ),
+                                                ),
+                                                border: OutlineInputBorder(),
+                                              ),
+                                              onChanged: (value) {
+                                                _numer = value;
+                                              },
                                             ),
-                                          )
-                                        : SizedBox(),
-                                    TextFormField(
-                                      inputFormatters: [
-                                        UpperCaseTextFormatter(),
-                                      ],
-                                      enabled: !loading,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .headline5
-                                              .color),
-                                      showCursor: true,
-                                      autocorrect: true,
-                                      autofocus: true,
-                                      cursorColor:
-                                          Theme.of(context).accentColor,
-                                      decoration: InputDecoration(
-                                        labelStyle: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .headline5
-                                              .color,
-                                        ),
-                                        labelText:
-                                            "Numer z dziennika w formacie: 2AG06",
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .headline5
-                                                .color,
-                                            width: 2.0,
-                                          ),
-                                        ),
-                                        border: OutlineInputBorder(),
-                                      ),
-                                      onChanged: (value) {
-                                        _numer = value;
-                                      },
-                                    ),
-                                    SizedBox(height: 20.0),
-                                    TextFormField(
-                                      inputFormatters: [
-                                        UpperCaseTextFormatter(),
-                                      ],
-                                      enabled: !loading,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .headline5
-                                              .color),
-                                      showCursor: true,
-                                      autocorrect: true,
-                                      autofocus: true,
-                                      cursorColor:
-                                          Theme.of(context).accentColor,
-                                      decoration: InputDecoration(
-                                        labelStyle: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .headline5
-                                              .color,
-                                        ),
-                                        labelText:
-                                            "Kod wysłany w wiadomości prywatnej",
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .headline5
-                                                .color,
-                                            width: 2.0,
-                                          ),
-                                        ),
-                                        border: OutlineInputBorder(),
-                                      ),
-                                      onChanged: (value) {
-                                        _kod = value;
-                                      },
-                                    ),
-                                    SizedBox(height: 20.0),
-                                    FlatButton(
-                                      minWidth: double.infinity,
-                                      height: 50.0,
-                                      onPressed: () async {
-                                        if (_numer != null && _kod != null) {
-                                          setState(() {
-                                            loading = !loading;
-                                          });
-                                          final _firestore =
-                                              FirebaseFirestore.instance;
-                                          _firestore
-                                              .collection('users')
-                                              .doc(_numer)
-                                              .get()
-                                              .then((doc) {
-                                            if (doc.exists) {
-                                              Map<String, dynamic> _data =
-                                                  doc.data();
-                                              if (_data['pass'] == _kod) {
-                                                saveLogins(id: _numer)
-                                                    .then((value) {
-                                                  if (value) {
-                                                    _firestore
-                                                        .collection('users')
-                                                        .doc(_numer)
-                                                        .set({
-                                                      'logged': true,
-                                                    }, SetOptions(merge: true));
-                                                    WidgetsBinding.instance
-                                                        .addPostFrameCallback(
-                                                      (_) => Navigator
-                                                          .pushReplacement(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (_) =>
-                                                              MyApp(),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  } else {
+                                            SizedBox(height: 20.0),
+                                            TextFormField(
+                                              inputFormatters: [
+                                                UpperCaseTextFormatter(),
+                                              ],
+                                              enabled: !loading,
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .headline5
+                                                      .color),
+                                              showCursor: true,
+                                              autocorrect: true,
+                                              autofocus: true,
+                                              cursorColor:
+                                                  Theme.of(context).accentColor,
+                                              decoration: InputDecoration(
+                                                labelStyle: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .textTheme
+                                                      .headline5
+                                                      .color,
+                                                ),
+                                                labelText:
+                                                    "Kod wysłany w wiadomości prywatnej",
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    color: Theme.of(context)
+                                                        .textTheme
+                                                        .headline5
+                                                        .color,
+                                                    width: 2.0,
+                                                  ),
+                                                ),
+                                                border: OutlineInputBorder(),
+                                              ),
+                                              onChanged: (value) {
+                                                _kod = value;
+                                              },
+                                            ),
+                                            SizedBox(height: 20.0),
+                                            FlatButton(
+                                              minWidth: double.infinity,
+                                              height: 50.0,
+                                              onPressed: () async {
+                                                if (_numer != null &&
+                                                    _kod != null) {
+                                                  setState(() {
+                                                    loading = !loading;
+                                                  });
+                                                  final _firestore =
+                                                      FirebaseFirestore
+                                                          .instance;
+                                                  _firestore
+                                                      .collection('users')
+                                                      .doc(_numer)
+                                                      .get()
+                                                      .then(
+                                                    (doc) {
+                                                      if (doc.exists) {
+                                                        Map<String, dynamic>
+                                                            _data = doc.data();
+                                                        if (_data['pass'] ==
+                                                            _kod) {
+                                                          saveLogins(id: _numer)
+                                                              .then((value) {
+                                                            if (value) {
+                                                              _firestore
+                                                                  .collection(
+                                                                      'users')
+                                                                  .doc(_numer)
+                                                                  .set(
+                                                                      {
+                                                                    'logged':
+                                                                        true,
+                                                                  },
+                                                                      SetOptions(
+                                                                          merge:
+                                                                              true));
+                                                              WidgetsBinding
+                                                                  .instance
+                                                                  .addPostFrameCallback(
+                                                                (_) => Navigator
+                                                                    .pushReplacement(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder: (_) =>
+                                                                        MyApp(),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            } else {
+                                                              setState(() {
+                                                                error = true;
+                                                                errorText =
+                                                                    'Coś poszło nie tak';
+                                                                loading = false;
+                                                              });
+                                                            }
+                                                          });
+                                                        } else {
+                                                          setState(() {
+                                                            error = true;
+                                                            errorText =
+                                                                'Niepoprawny kod';
+                                                            loading = false;
+                                                          });
+                                                        }
+                                                      } else {
+                                                        setState(() {
+                                                          error = true;
+                                                          errorText =
+                                                              'Niepoprawny numer';
+                                                          loading = false;
+                                                        });
+                                                      }
+                                                    },
+                                                  ).catchError((e) {
                                                     setState(() {
                                                       error = true;
-                                                      errorText =
-                                                          'Coś poszło nie tak';
+                                                      errorText = e.toString();
                                                       loading = false;
                                                     });
-                                                  }
-                                                });
-                                              } else {
-                                                setState(() {
-                                                  error = true;
-                                                  errorText = 'Niepoprawny kod';
-                                                  loading = false;
-                                                });
-                                              }
-                                            } else {
-                                              setState(() {
-                                                error = true;
-                                                errorText = 'Niepoprawny numer';
-                                                loading = false;
-                                              });
-                                            }
-                                          });
-                                        }
-                                      },
-                                      child: loading
-                                          ? CircularProgressIndicator()
-                                          : Text('Zaloguj się', style: GoogleFonts.comfortaa(
-                                            color: Theme.of(context).textTheme.headline5.color,
-                                          )),
+                                                  });
+                                                } else {
+                                                  setState(() {
+                                                    error = true;
+                                                    errorText = 'Wpisz dane';
+                                                    loading = false;
+                                                  });
+                                                }
+                                              },
+                                              child: loading
+                                                  ? CircularProgressIndicator()
+                                                  : Text(
+                                                      'Zaloguj się',
+                                                      style:
+                                                          GoogleFonts.comfortaa(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .headline5
+                                                            .color,
+                                                      ),
+                                                    ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     );
                   }
+                } else if (sh.hasError) {
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Text(
+                        sh.error.toString(),
+                        style: GoogleFonts.comfortaa(
+                          color: Colors.red,
+                          fontSize: 18.0,
+                        ),
+                      ),
+                    ),
+                  );
                 } else {
                   return LinearProgressIndicator();
                 }
               },
+            );
+          } else if (snapshot.hasError) {
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  snapshot.error.toString(),
+                  style: GoogleFonts.comfortaa(
+                    color: Colors.red,
+                    fontSize: 18.0,
+                  ),
+                ),
+              ),
             );
           } else {
             return LinearProgressIndicator();

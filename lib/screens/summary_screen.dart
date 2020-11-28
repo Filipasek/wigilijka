@@ -57,6 +57,23 @@ class _SummaryScreenState extends State<SummaryScreen> {
                 fontSize: 24.0,
               ),
             ),
+            //TODO: remove!!!
+            FlatButton(
+              onPressed: () async {
+                await resetData();
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (_) => MyApp(),
+                  ),
+                );
+              },
+              child: Text(
+                'Press to reset data',
+                style: GoogleFonts.comfortaa(
+                  color: Theme.of(context).textTheme.headline5.color,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -153,7 +170,11 @@ Future<bool> resetData() async {
       "pass": passes[name],
       "wolny": true,
       "showResultsOfLottery": name == "2AG06" ? true : false
-    }).catchError((e) => print('ERROR: ' + e.toString()));
+    }).catchError((e) {
+      print('ERROR: ' + e.toString());
+
+      throw Exception();
+    });
   }
   return true;
 }

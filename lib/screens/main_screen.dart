@@ -59,7 +59,29 @@ class _MainScreenState extends State<MainScreen> {
           List<Map<String, dynamic>> datas = shuffle(rawDatas);
 
           print("Snapszot: " + size.toString());
-          return MainContent(size: size, datas: datas, myId: widget.myId);
+          return Center(
+            child: Container(
+              constraints: BoxConstraints(maxWidth: 600.0),
+              child: MainContent(
+                size: size,
+                datas: datas,
+                myId: widget.myId,
+              ),
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Text(
+                snapshot.error.toString(),
+                style: GoogleFonts.comfortaa(
+                  color: Colors.red,
+                  fontSize: 18.0,
+                ),
+              ),
+            ),
+          );
         } else {
           return LinearProgressIndicator();
         }
@@ -85,11 +107,13 @@ class _MainContentState extends State<MainContent>
   var normalRadius = BorderRadius.circular(5.0);
   var smallerRadius = BorderRadius.circular(50.0);
   var currentRadius = BorderRadius.circular(10.0);
+  bool error = false;
   String errorMessage;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        error ? Text(errorMessage) : SizedBox(),
         Container(
           child: FlatButton(
             onPressed: selectedIndex != null
@@ -109,23 +133,39 @@ class _MainContentState extends State<MainContent>
                           .set({
                         'chose': selectedNumber,
                         'logged': true,
-                      }, SetOptions(merge: true));
+                      }, SetOptions(merge: true)).catchError((e) {
+                        setState(() {
+                          error = true;
+                          errorMessage = e.toString();
+                        });
+                      });
 
                       await _firestore
                           .collection('users')
                           .doc(selectedNumber)
                           .set({
                         'wolny': false,
-                      }, SetOptions(merge: true));
+                      }, SetOptions(merge: true)).catchError((e) {
+                        setState(() {
+                          error = true;
+                          errorMessage = e.toString();
+                        });
+                      });
                     }
                     print("Wybrane: " + selectedNumber);
                   }
                 : null,
             child: selectedIndex != null
-                ? Text('Zatwierdź wybór', style: GoogleFonts.comfortaa())
+                ? Text(
+                    'Zatwierdź wybór',
+                    style: GoogleFonts.comfortaa(
+                      fontSize: 18.0,
+                    ),
+                  )
                 : Text(
                     'Wybierz kwadracik',
                     style: GoogleFonts.comfortaa(
+                      fontSize: 18.0,
                       color: Theme.of(context).textTheme.headline5.color,
                     ),
                   ),
@@ -176,9 +216,6 @@ class _MainContentState extends State<MainContent>
                         : Color.fromRGBO(217, 217, 243, 1),
                     borderRadius:
                         selectedIndex == index ? normalRadius : currentRadius,
-                  ),
-                  child: Center(
-                    child: Text(widget.datas[index]["numer"]),
                   ),
                 ),
               );
