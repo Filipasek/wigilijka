@@ -123,7 +123,12 @@ class _MainContentState extends State<MainContent>
                 : null,
             child: selectedIndex != null
                 ? Text('Zatwierdź wybór', style: GoogleFonts.comfortaa())
-                : Text('Wybierz kwadracik', style: GoogleFonts.comfortaa()),
+                : Text(
+                    'Wybierz kwadracik',
+                    style: GoogleFonts.comfortaa(
+                      color: Theme.of(context).textTheme.headline5.color,
+                    ),
+                  ),
             color: Color.fromRGBO(217, 217, 243, 1),
           ),
         ),
@@ -171,6 +176,9 @@ class _MainContentState extends State<MainContent>
                         : Color.fromRGBO(217, 217, 243, 1),
                     borderRadius:
                         selectedIndex == index ? normalRadius : currentRadius,
+                  ),
+                  child: Center(
+                    child: Text(widget.datas[index]["numer"]),
                   ),
                 ),
               );

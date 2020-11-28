@@ -163,6 +163,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                     SizedBox(height: 20.0),
                                     TextFormField(
+                                      inputFormatters: [
+                                        UpperCaseTextFormatter(),
+                                      ],
                                       enabled: !loading,
                                       style: TextStyle(
                                           color: Theme.of(context)
@@ -266,7 +269,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                       },
                                       child: loading
                                           ? CircularProgressIndicator()
-                                          : Text('Zaloguj się'),
+                                          : Text('Zaloguj się', style: GoogleFonts.comfortaa(
+                                            color: Theme.of(context).textTheme.headline5.color,
+                                          )),
                                     ),
                                   ],
                                 ),

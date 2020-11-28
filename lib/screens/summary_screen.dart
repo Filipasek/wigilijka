@@ -57,18 +57,6 @@ class _SummaryScreenState extends State<SummaryScreen> {
                 fontSize: 24.0,
               ),
             ),
-            //TODO: remove!!!
-            FlatButton(
-              onPressed: () async {
-                await resetData();
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (_) => MyApp(),
-                  ),
-                );
-              },
-              child: Text('Press to reset data'),
-            ),
           ],
         ),
       ),
@@ -90,13 +78,13 @@ Future<bool> resetData() async {
     "2AG03": "R1LGRY",
     "2AG04": "HYKZB7",
     "2AG05": "MSZ0QO",
-    "2AG06": "LGQUHD",
+    "2AG06": "OEOEOE",
     "2AG07": "QR4GGZ",
     "2AG08": "WYT1KM",
     "2AG09": "A13ONY",
     "2AG10": "RGE1SN",
     "2AG11": "VZNPBQ",
-    "2AG12": "CMVMHC",
+    "2AG12": "WSUGAR",
     "2AG13": "FDPJGW",
     "2AG14": "3MPSDL",
     "2AG15": "T8N56Y",
@@ -115,7 +103,6 @@ Future<bool> resetData() async {
     "2AG28": "DUCZEA",
     "2AG29": "957CJR",
     "2AG30": "ZLKTGA",
-    "test": "OEOEOE",
   };
 
   Map<String, String> names = {
@@ -149,7 +136,6 @@ Future<bool> resetData() async {
     "2AG28": "Damian Wiercimak",
     "2AG29": "Julka Wróbel",
     "2AG30": "Gabrysia Żmuda",
-    "test": "Testowe Konto",
   };
   final _firestore = FirebaseFirestore.instance;
   for (int i = 1; i <= 30; i++) {
