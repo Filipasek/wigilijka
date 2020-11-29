@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         elevation: 0.0,
         title: Text(
-          'Zadania z matematyki',
+          'Wigilijka',
           style: GoogleFonts.comfortaa(),
         ),
       ),
