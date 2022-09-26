@@ -20,20 +20,22 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Comfortaa',
         primaryColor: Colors.white,
-        accentColor: Color.fromRGBO(255, 182, 185, 1),
         textTheme: TextTheme(
           bodyText2: TextStyle(color: Colors.grey),
           headline5: TextStyle(color: Colors.black),
         ),
+        colorScheme: ColorScheme.fromSwatch()
+            .copyWith(secondary: Color.fromRGBO(255, 182, 185, 1)),
       ),
       darkTheme: ThemeData(
         fontFamily: 'Comfortaa',
         primaryColor: Color.fromRGBO(40, 44, 55, 1),
-        accentColor: Color.fromRGBO(255, 182, 185, 1),
         textTheme: TextTheme(
           bodyText2: TextStyle(color: Colors.grey),
           headline5: TextStyle(color: Colors.white),
         ),
+        colorScheme: ColorScheme.fromSwatch()
+            .copyWith(secondary: Color.fromRGBO(255, 182, 185, 1)),
       ),
       home: MyHomePage(),
     );
@@ -113,8 +115,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                           bottom: 20.0, top: 20.0),
                                       child: Theme(
                                         data: ThemeData(
-                                          primaryColor:
-                                              Theme.of(context).accentColor,
+                                          primaryColor: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
                                         ),
                                         child: Column(
                                           children: [
@@ -122,10 +125,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 ? Container(
                                                     padding:
                                                         EdgeInsets.fromLTRB(
-                                                            30.0,
-                                                            10.0,
-                                                            30.0,
-                                                            10.0),
+                                                      30.0,
+                                                      10.0,
+                                                      30.0,
+                                                      10.0,
+                                                    ),
                                                     margin:
                                                         EdgeInsets.all(10.0),
                                                     // decoration: BoxDecoration(color: Colors.red),
@@ -133,8 +137,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       errorText.toString(),
                                                       style:
                                                           GoogleFonts.comfortaa(
-                                                              color: Colors.red,
-                                                              fontSize: 18.0),
+                                                        color: Colors.red,
+                                                        fontSize: 18.0,
+                                                      ),
                                                     ),
                                                   )
                                                 : SizedBox(),
@@ -144,15 +149,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                               ],
                                               enabled: !loading,
                                               style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .textTheme
-                                                      .headline5
-                                                      .color),
+                                                color: Theme.of(context)
+                                                    .textTheme
+                                                    .headline5
+                                                    .color,
+                                              ),
                                               showCursor: true,
                                               autocorrect: true,
                                               autofocus: true,
-                                              cursorColor:
-                                                  Theme.of(context).accentColor,
+                                              cursorColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
                                               decoration: InputDecoration(
                                                 labelStyle: TextStyle(
                                                   color: Theme.of(context)
@@ -161,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                       .color,
                                                 ),
                                                 labelText:
-                                                    "Numer z dziennika w formacie: 2AG06",
+                                                    "Numer z dziennika w formacie: 3AG05",
                                                 enabledBorder:
                                                     OutlineInputBorder(
                                                   borderSide: BorderSide(
@@ -192,8 +199,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                               showCursor: true,
                                               autocorrect: true,
                                               autofocus: true,
-                                              cursorColor:
-                                                  Theme.of(context).accentColor,
+                                              cursorColor: Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary,
                                               decoration: InputDecoration(
                                                 labelStyle: TextStyle(
                                                   color: Theme.of(context)
@@ -338,7 +346,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   }
                 } else if (sh.hasError) {
-                  Center(
+                  return Center(
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Text(
@@ -356,7 +364,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             );
           } else if (snapshot.hasError) {
-            Center(
+            return Center(
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Text(
